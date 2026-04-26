@@ -1,0 +1,25 @@
+[submodule "gsd-2"]
+	path = gsd-2
+	url = git@github.com:PamelaSprin47685ghall/gsd-2.git
+	branch = main
+	update = merge
+[submodule "gsd-auto-continue"]
+	path = gsd-auto-continue
+	url = git@github.com:PamelaSprin47685ghall/gsd-auto-continue.git
+	branch = main
+	update = merge
+[submodule "gsd-context-prune"]
+	path = gsd-context-prune
+	url = git@github.com:PamelaSprin47685ghall/gsd-context-prune.git
+	branch = main
+	update = merge
+[submodule "gsd-explicit-reactive"]
+	path = gsd-explicit-reactive
+	url = git@github.com:PamelaSprin47685ghall/gsd-explicit-reactive.git
+	branch = main
+	update = merge
+[submodule "gsd-hints-injector"]
+	path = gsd-hints-injector
+	url = git@github.com:PamelaSprin47685ghall/gsd-hints-injector.git
+	branch = main
+	update = merge
