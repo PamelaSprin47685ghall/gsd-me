@@ -1,4 +1,12 @@
-gsd remove https://github.com/PamelaSprin47685ghall/gsd-context-prune
-gsd remove https://github.com/PamelaSprin47685ghall/gsd-auto-continue
-gsd remove https://github.com/PamelaSprin47685ghall/gsd-explicit-reactive
-gsd remove https://github.com/PamelaSprin47685ghall/gsd-hints-injector
+#!/usr/bin/env bash
+
+set -e
+
+echo "Removing GSD minimalist extension suite..."
+
+gsd remove https://github.com/PamelaSprin47685ghall/gsd-auto-continue || true
+gsd remove https://github.com/PamelaSprin47685ghall/gsd-context-prune || true
+gsd remove https://github.com/PamelaSprin47685ghall/gsd-explicit-reactive || true
+gsd remove https://github.com/PamelaSprin47685ghall/gsd-hints-injector || true
+
+echo "All extensions removed."
