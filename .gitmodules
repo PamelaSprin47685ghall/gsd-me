@@ -3,11 +3,6 @@
 	url = git@github.com:PamelaSprin47685ghall/gsd-2.git
 	branch = main
 	update = merge
-[submodule "gsd-auto-continue"]
-	path = gsd-auto-continue
-	url = git@github.com:PamelaSprin47685ghall/gsd-auto-continue.git
-	branch = main
-	update = merge
 [submodule "gsd-context-prune"]
 	path = gsd-context-prune
 	url = git@github.com:PamelaSprin47685ghall/gsd-context-prune.git
