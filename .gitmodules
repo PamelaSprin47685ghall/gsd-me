@@ -18,8 +18,6 @@
 	url = git@github.com:PamelaSprin47685ghall/gsd-explicit-reactive.git
 	branch = main
 	update = merge
-[submodule "gsd-hints-injector"]
-	path = gsd-hints-injector
-	url = git@github.com:PamelaSprin47685ghall/gsd-hints-injector.git
-	branch = main
-	update = merge
+[submodule "gsd-multi-edit"]
+	path = gsd-multi-edit
+	url = git@github.com:PamelaSprin47685ghall/gsd-multi-edit.git
