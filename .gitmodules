@@ -16,3 +16,8 @@
 [submodule "gsd-multi-edit"]
 	path = gsd-multi-edit
 	url = git@github.com:PamelaSprin47685ghall/gsd-multi-edit.git
+[submodule "gsd-guardian"]
+	path = gsd-guardian
+	url = git@github.com:PamelaSprin47685ghall/gsd-guardian.git
+	branch = main
+	update = merge
