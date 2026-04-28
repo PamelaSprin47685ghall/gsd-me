@@ -1,0 +1,13 @@
+{
+  "id": "edit-pp",
+  "name": "gsd-trueline",
+  "version": "0.1.0",
+  "description": "Hash-verified file reading with FNV-1a per-line hashes and range refs",
+  "tier": "community",
+  "requires": {
+    "platform": ">=2.29.0"
+  },
+  "provides": {
+    "tools": ["read"]
+  }
+}
