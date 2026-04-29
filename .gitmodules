@@ -26,3 +26,6 @@
 	url = git@github.com:PamelaSprin47685ghall/gsd-trueline.git
 	branch = main
 	update = merge
+[submodule "trueline-mcp"]
+	path = trueline-mcp
+	url = https://github.com/rjkaes/trueline-mcp.git
