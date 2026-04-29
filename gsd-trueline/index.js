@@ -11,6 +11,7 @@
 // ==============================================================================
 
 import { handleRead, handleReadMulti } from "./src/read/reader.js";
+import { handleOutline, handleOutlineMulti } from "./src/read/index.js";
 import { errorResult } from "./src/common/security.js";
 
 /**
@@ -120,6 +121,27 @@ export default function (pi) {
      */
     async execute(toolCallId, params, signal, onUpdate, ctx) {
       const { path, offset, limit, ranges, file_paths, encoding } = params;
+
+      // ── Outline mode: when no offset/limit/ranges are specified, produce structural outline ──
+      const isOutlineMode = offset === undefined && limit === undefined && (!ranges || ranges.length === 0);
+
+      if (isOutlineMode) {
+        if (file_paths && file_paths.length > 0) {
+          const outlineResult = await handleOutlineMulti({
+            file_paths,
+            projectDir: ctx.cwd,
+          });
+          if (outlineResult !== null) return outlineResult;
+          // Fall through to handleReadMulti for unsupported extensions
+        } else if (path) {
+          const outlineResult = await handleOutline({
+            file_path: path,
+            projectDir: ctx.cwd,
+          });
+          if (outlineResult !== null) return outlineResult;
+          // Fall through to hash-verified read for unsupported extensions
+        }
+      }
 
       // ── Multi-file mode ──
       if (file_paths && file_paths.length > 0) {
