@@ -24,3 +24,5 @@
 [submodule "gsd-trueline"]
 	path = gsd-trueline
 	url = git@github.com:PamelaSprin47685ghall/gsd-trueline.git
+	branch = main
+	update = merge
