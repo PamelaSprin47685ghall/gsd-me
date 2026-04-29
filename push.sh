@@ -3,18 +3,22 @@ set -euo pipefail
 
 cd "$(dirname "$0")"
 
-# Init & update all submodules (skip broken nested one in gsd-2)
+SUBMODULES=(gsd-2 gsd-context-prune gsd-explicit-reactive gsd-guardian gsd-multi-edit gsd-trueline)
+
+# Init all submodules
 git submodule update --init 2>&1
 
-# Checkout main & pull latest for each submodule
-for d in gsd-2 gsd-context-prune gsd-explicit-reactive gsd-guardian gsd-multi-edit gsd-trueline; do
+# Checkout main, pull latest, remove untracked files
+for d in "${SUBMODULES[@]}"; do
   printf '=== %s ===\n' "$d"
   git -C "$d" checkout main 2>&1
   git -C "$d" pull 2>&1
+  git -C "$d" clean -df 2>&1
+  git -C "$d" checkout -- . 2>&1
 done
 
 # Update parent repo pointers
-git add . 2>&1
+git add .
 if git diff --cached --quiet; then
   echo 'Nothing to commit.'
 else
