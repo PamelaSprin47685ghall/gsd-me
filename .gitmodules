@@ -21,9 +21,9 @@
 	url = git@github.com:PamelaSprin47685ghall/gsd-guardian.git
 	branch = main
 	update = merge
-[submodule "gsd-trueline"]
-	path = gsd-trueline
-	url = git@github.com:PamelaSprin47685ghall/gsd-trueline.git
+[submodule "editplus"]
+	path = editplus
+	url = git@github.com:PamelaSprin47685ghall/editplus.git
 	branch = main
 	update = merge
 

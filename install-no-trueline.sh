@@ -2,7 +2,7 @@
 
 set -e
 
-echo "Installing GSD minimalist extension suite (without gsd-trueline)..."
+echo "Installing GSD minimalist extension suite (without editplus)..."
 
 gsd install https://github.com/PamelaSprin47685ghall/gsd-guardian
 gsd install https://github.com/PamelaSprin47685ghall/gsd-context-prune
