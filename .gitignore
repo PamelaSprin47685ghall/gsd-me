@@ -29,4 +29,5 @@ vendor/
 coverage/
 .cache/
 tmp/
+gsd-trueline/
 trueline-mcp/
