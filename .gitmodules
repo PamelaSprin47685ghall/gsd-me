@@ -13,20 +13,11 @@
 	url = git@github.com:PamelaSprin47685ghall/gsd-explicit-reactive.git
 	branch = main
 	update = merge
-[submodule "gsd-multi-edit"]
-	path = gsd-multi-edit
-	url = git@github.com:PamelaSprin47685ghall/gsd-multi-edit.git
 [submodule "gsd-guardian"]
 	path = gsd-guardian
 	url = git@github.com:PamelaSprin47685ghall/gsd-guardian.git
 	branch = main
 	update = merge
-[submodule "editplus"]
-	path = editplus
-	url = git@github.com:PamelaSprin47685ghall/editplus.git
-	branch = main
-	update = merge
-
 [submodule "gsd-system-prompt"]
 	path = gsd-system-prompt
 	url = https://github.com/PamelaSprin47685ghall/gsd-system-prompt.git
