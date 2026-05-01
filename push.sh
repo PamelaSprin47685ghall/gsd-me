@@ -3,7 +3,7 @@ set -euo pipefail
 
 cd "$(dirname "$0")"
 
-SUBMODULES=(gsd-2 gsd-context-prune gsd-explicit-reactive gsd-guardian gsd-system-prompt)
+SUBMODULES=(gsd-2 gsd-magic-todo gsd-explicit-reactive gsd-guardian gsd-system-prompt)
 
 # Init all submodules
 git submodule update --init 2>&1

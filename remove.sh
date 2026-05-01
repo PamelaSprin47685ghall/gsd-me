@@ -5,7 +5,7 @@ set -e
 echo "Removing GSD minimalist extension suite..."
 
 gsd remove https://github.com/PamelaSprin47685ghall/gsd-guardian || true
-gsd remove https://github.com/PamelaSprin47685ghall/gsd-context-prune || true
+gsd remove https://github.com/PamelaSprin47685ghall/gsd-magic-todo || true
 gsd remove https://github.com/PamelaSprin47685ghall/gsd-explicit-reactive || true
 
 echo "All extensions removed."

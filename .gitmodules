@@ -3,11 +3,6 @@
 	url = git@github.com:PamelaSprin47685ghall/gsd-2.git
 	branch = main
 	update = merge
-[submodule "gsd-context-prune"]
-	path = gsd-context-prune
-	url = git@github.com:PamelaSprin47685ghall/gsd-context-prune.git
-	branch = main
-	update = merge
 [submodule "gsd-explicit-reactive"]
 	path = gsd-explicit-reactive
 	url = git@github.com:PamelaSprin47685ghall/gsd-explicit-reactive.git
@@ -21,3 +16,8 @@
 [submodule "gsd-system-prompt"]
 	path = gsd-system-prompt
 	url = https://github.com/PamelaSprin47685ghall/gsd-system-prompt.git
+[submodule "gsd-magic-todo"]
+	path = gsd-magic-todo
+	url = git@github.com:PamelaSprin47685ghall/gsd-magic-todo.git
+	branch = main
+	update = merge
