@@ -27,3 +27,6 @@
 	branch = main
 	update = merge
 
+[submodule "gsd-system-prompt"]
+	path = gsd-system-prompt
+	url = https://github.com/PamelaSprin47685ghall/gsd-system-prompt.git
