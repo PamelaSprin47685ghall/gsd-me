@@ -21,3 +21,6 @@
 	url = git@github.com:PamelaSprin47685ghall/gsd-magic-todo.git
 	branch = main
 	update = merge
+[submodule "gsd-agent-loop"]
+	path = gsd-agent-loop
+	url = git@github.com:PamelaSprin47685ghall/gsd-agent-loop.git
