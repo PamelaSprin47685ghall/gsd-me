@@ -15,7 +15,9 @@
 	update = merge
 [submodule "gsd-system-prompt"]
 	path = gsd-system-prompt
-	url = https://github.com/PamelaSprin47685ghall/gsd-system-prompt.git
+	url = git@github.com:PamelaSprin47685ghall/gsd-system-prompt.git
+	branch = main
+	update = merge
 [submodule "gsd-magic-todo"]
 	path = gsd-magic-todo
 	url = git@github.com:PamelaSprin47685ghall/gsd-magic-todo.git
@@ -24,3 +26,5 @@
 [submodule "gsd-agent-loop"]
 	path = gsd-agent-loop
 	url = git@github.com:PamelaSprin47685ghall/gsd-agent-loop.git
+	branch = main
+	update = merge
