@@ -21,7 +21,7 @@ function initSubmodules(rootDir) {
   const missing = PLUGIN_SUBMODULES.filter(
     (name) => !existsSync(join(rootDir, name, "index.js")),
   );
-  if (missing.length === 0) return; // already populated
+  if (missing.length === 0) return;
 
   try {
     spawnSync(
@@ -29,9 +29,11 @@ function initSubmodules(rootDir) {
       ["submodule", "update", "--init", ...missing],
       { cwd: rootDir, stdio: "ignore", timeout: 60_000 },
     );
-  } catch {
-    // Silent — submodules may fail to fetch (offline, no network, etc.)
-    // Each individual plugin load will throw a clear error later.
+  } catch (err) {
+    console.warn(
+      `[gsd-me] submodule init failed for: ${missing.join(", ")}. ` +
+      `Run 'git submodule update --init' to fix, or reinstall with 'gsd install'.`,
+    );
   }
 }
 
@@ -44,7 +46,7 @@ async function loadPlugin(pi, pluginName) {
 
   if (!existsSync(entry)) {
     throw new Error(
-      `${pluginName} is missing — try running "gsd update" or reinstall gsd-me with "gsd install https://github.com/PamelaSprin47685ghall/gsd-me.git"`,
+      `${pluginName} is missing — try running "gsd update" or reinstall gsd-me`,
     );
   }
 
