@@ -1,8 +1,3 @@
-[submodule "gsd-2"]
-	path = gsd-2
-	url = git@github.com:PamelaSprin47685ghall/gsd-2.git
-	branch = main
-	update = merge
 [submodule "gsd-explicit-reactive"]
 	path = gsd-explicit-reactive
 	url = git@github.com:PamelaSprin47685ghall/gsd-explicit-reactive.git
