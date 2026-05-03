@@ -6,10 +6,11 @@
   "exports": "./index.js",
   "scripts": {
     "test": "node --test test/*.test.js",
-    "prepare": "husky"
+    "prepare": "husky",
+    "format": "prettier --write ."
   },
   "lint-staged": {
-    "*.{js,json,md}": [
+    "**/*.{js,json,md}": [
       "prettier --write"
     ]
   },
