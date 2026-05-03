@@ -4,8 +4,10 @@
 
 ## Install
 
+**For users:**
+
 ```bash
-gsd install https://github.com/PamelaSprin47685ghall/gsd-me.git
+gsd install https://github.com/PamelaSprin47685ghall/gsd-me
 ```
 
 首次启动时自动克隆并加载以下插件：
@@ -19,6 +21,40 @@ gsd install https://github.com/PamelaSprin47685ghall/gsd-me.git
 | `gsd-explicit-reactive` | 显式 DEPS.json DAG 任务引擎 |
 
 > 无需 `npm install -g`，不下载 gsd-2 框架源码。`gsd install` 将 URL 添加到 `~/.gsd/agent/settings.json`，启动时自动克隆插件子模块。
+
+**For developers:**
+
+```bash
+# Clone the repo (HTTPS works for everyone)
+git clone https://github.com/PamelaSprin47685ghall/gsd-me.git
+cd gsd-me
+
+# Initialize submodules
+git submodule update --init --recursive
+
+# Sync all submodules to latest (auto-converts to SSH for push)
+./sync.sh
+```
+
+Note: `.gitmodules` uses HTTPS for public access. `sync.sh` automatically converts your local submodule remotes to SSH for push access, without modifying `.gitmodules`.
+
+## Development Setup
+
+For contributors who need push access to submodules:
+
+```bash
+# Clone the repo
+git clone https://github.com/PamelaSprin47685ghall/gsd-me.git
+cd gsd-me
+
+# Initialize submodules (uses HTTPS by default)
+git submodule update --init --recursive
+
+# Convert to SSH for push access (developers only)
+./dev-setup.sh
+```
+
+The `dev-setup.sh` script converts submodule URLs from HTTPS to SSH in your local git config, allowing you to push changes. The `.gitmodules` file remains HTTPS for public users.
 
 ## Architecture
 

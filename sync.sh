@@ -10,6 +10,7 @@
 # - Syncs all 5 plugin submodules (always active).
 # - Also syncs gsd-2 IF the developer has initialized it (git submodule init gsd-2).
 # - Runs `npm test` in the root before pushing to catch regressions.
+# - Auto-converts submodule URLs from HTTPS to SSH for push access (local config only).
 set -euo pipefail
 cd "$(dirname "$0")"
 NO_PUSH=
@@ -24,6 +25,30 @@ while [[ $# -gt 0 ]]; do
   esac
   shift
 done
+
+# ── Auto-convert HTTPS to SSH for developers ──────────────────────────
+echo "Checking submodule URLs..."
+CONVERTED=0
+for d in gsd-explicit-reactive gsd-guardian gsd-system-prompt gsd-magic-todo gsd-agent-loop gsd-2; do
+  if [[ -d "$d" ]]; then
+    # Get current remote URL
+    current_url=$(git -C "$d" remote get-url origin 2>/dev/null || echo "")
+    
+    # Convert HTTPS to SSH if needed
+    if [[ $current_url == https://github.com/* ]]; then
+      ssh_url=$(echo "$current_url" | sed 's|https://github.com/|git@github.com:|')
+      git -C "$d" remote set-url origin "$ssh_url"
+      echo "  ✓ $d: converted to SSH"
+      CONVERTED=$((CONVERTED + 1))
+    fi
+  fi
+done
+
+if [[ $CONVERTED -gt 0 ]]; then
+  echo "Converted $CONVERTED submodule(s) to SSH for push access."
+  echo "Note: .gitmodules still uses HTTPS (for public users)."
+  echo ""
+fi
 
 # ── Detect active submodules ──────────────────────────────────────────
 ACTIVE=()

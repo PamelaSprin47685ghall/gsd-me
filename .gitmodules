@@ -1,31 +1,31 @@
 [submodule "gsd-explicit-reactive"]
 	path = gsd-explicit-reactive
-	url = git@github.com:PamelaSprin47685ghall/gsd-explicit-reactive.git
+	url = https://github.com/PamelaSprin47685ghall/gsd-explicit-reactive.git
 	branch = main
 	update = merge
 [submodule "gsd-guardian"]
 	path = gsd-guardian
-	url = git@github.com:PamelaSprin47685ghall/gsd-guardian.git
+	url = https://github.com/PamelaSprin47685ghall/gsd-guardian.git
 	branch = main
 	update = merge
 [submodule "gsd-system-prompt"]
 	path = gsd-system-prompt
-	url = git@github.com:PamelaSprin47685ghall/gsd-system-prompt.git
+	url = https://github.com/PamelaSprin47685ghall/gsd-system-prompt.git
 	branch = main
 	update = merge
 [submodule "gsd-magic-todo"]
 	path = gsd-magic-todo
-	url = git@github.com:PamelaSprin47685ghall/gsd-magic-todo.git
+	url = https://github.com/PamelaSprin47685ghall/gsd-magic-todo.git
 	branch = main
 	update = merge
 [submodule "gsd-agent-loop"]
 	path = gsd-agent-loop
-	url = git@github.com:PamelaSprin47685ghall/gsd-agent-loop.git
+	url = https://github.com/PamelaSprin47685ghall/gsd-agent-loop.git
 	branch = main
 	update = merge
 [submodule "gsd-2"]
 	path = gsd-2
-	url = git@github.com:PamelaSprin47685ghall/gsd-2.git
+	url = https://github.com/PamelaSprin47685ghall/gsd-2.git
 	branch = main
 	update = none
 	ignore = all
