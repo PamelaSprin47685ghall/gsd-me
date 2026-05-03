@@ -23,3 +23,9 @@
 	url = git@github.com:PamelaSprin47685ghall/gsd-agent-loop.git
 	branch = main
 	update = merge
+[submodule "gsd-2"]
+	path = gsd-2
+	url = git@github.com:PamelaSprin47685ghall/gsd-2.git
+	branch = main
+	update = none
+	ignore = all

@@ -31,3 +31,6 @@ coverage/
 tmp/
 gsd-trueline/
 trueline-mcp/
+
+# ── Developer reference (optional: git submodule update --init gsd-2) ──
+/gsd-2/
