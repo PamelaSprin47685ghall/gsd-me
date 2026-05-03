@@ -1,5 +1,5 @@
 import { fileURLToPath } from "node:url";
-import { execSync } from "node:child_process";
+import { spawnSync } from "node:child_process";
 import { existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 
@@ -24,8 +24,9 @@ function initSubmodules(rootDir) {
   if (missing.length === 0) return; // already populated
 
   try {
-    execSync(
-      `git submodule update --init ${missing.map((s) => `'${s}'`).join(" ")}`,
+    spawnSync(
+      "git",
+      ["submodule", "update", "--init", ...missing],
       { cwd: rootDir, stdio: "ignore", timeout: 60_000 },
     );
   } catch {

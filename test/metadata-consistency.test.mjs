@@ -47,10 +47,15 @@ const plugins = [
 ];
 
 const readJson = file => JSON.parse(fs.readFileSync(file, "utf8"));
+import { fileURLToPath } from "node:url";
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const sorted = value => [...(value || [])].sort();
 
 describe("plugin package and manifest consistency", () => {
   test("all plugins share the suite version and install entry style", () => {
+    const rootDir = path.resolve(__dirname, "..");
+    const rootPkgVersion = JSON.parse(fs.readFileSync(path.join(rootDir, "package.json"), "utf8")).version;
+
     const versions = new Set();
 
     for (const plugin of plugins) {
@@ -67,7 +72,7 @@ describe("plugin package and manifest consistency", () => {
       assert.deepEqual(manifest.requires, { platform: ">=2.29.0" });
     }
 
-    assert.deepEqual([...versions], ["5.1.0"]);
+    assert.ok([...versions].every(v => v === rootPkgVersion), `all versions must match root package.json (${rootPkgVersion}), got: ${[...versions].join(", ")}`);
   });
 
   test("manifests declare the actual public extension surface", () => {

@@ -61,8 +61,7 @@ for d in "${ACTIVE[@]}"; do
     git -C "$d" rebase origin/main 2>&1
   fi
 
-  # Clean: remove untracked files, reset tracked ones to HEAD
-  git -C "$d" clean -df 2>&1
+  # Reset tracked changes — safe since rebase already applied upstream
   git -C "$d" checkout -- . 2>&1
 
   printf '  ✓ %s @ %s\n' "$d" "$(git -C "$d" rev-parse --short HEAD)"
@@ -82,6 +81,14 @@ fi
 if [[ -f package.json ]]; then
   npm test 2>&1
 fi
+
+# ── Submodule-level tests ──────────────────────────────────────────────
+for d in "${ACTIVE[@]}"; do
+  if [[ -f "$d/package.json" ]] && grep -q '"test"' "$d/package.json"; then
+    printf '\n=== Running tests in %s ===\n' "$d"
+    (cd "$d" && npm test 2>&1) || echo "  ⚠  Tests failed in $d"
+  fi
+done
 
 # ── Push ──────────────────────────────────────────────────────────────
 if [[ -z "$NO_PUSH" ]]; then
