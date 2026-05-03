@@ -1,0 +1,94 @@
+#!/usr/bin/env bash
+# sync.sh — developer sync tool for gsd-me submodule suite
+#
+# Usage:
+#   ./sync.sh             sync all active submodules (push parent)
+#   ./sync.sh --no-push   sync only, don't push parent commit
+#   ./sync.sh --help      show this help
+#
+# Design:
+# - Syncs all 5 plugin submodules (always active).
+# - Also syncs gsd-2 IF the developer has initialized it (git submodule init gsd-2).
+# - Runs `npm test` in the root before pushing to catch regressions.
+set -euo pipefail
+cd "$(dirname "$0")"
+NO_PUSH=
+
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    --no-push) NO_PUSH=1 ;;
+    --help|-h)
+      sed -n '2,/^$/p; /^set -e/d' "$0" | sed 's/^# //; s/^#$//'
+      exit 0 ;;
+    *) echo "unknown: $1"; exit 1 ;;
+  esac
+  shift
+done
+
+# ── Detect active submodules ──────────────────────────────────────────
+ACTIVE=()
+for d in gsd-explicit-reactive gsd-guardian gsd-system-prompt gsd-magic-todo gsd-agent-loop; do
+  if [[ -d "$d/.git" || -f "$d/.git" ]]; then
+    ACTIVE+=("$d")
+  fi
+done
+
+# Opt-in: gsd-2 (dev reference, not auto-initialized)
+if [[ -d gsd-2/.git || -f gsd-2/.git ]]; then
+  ACTIVE+=(gsd-2)
+fi
+
+if [[ ${#ACTIVE[@]} -eq 0 ]]; then
+  echo "No submodules initialized. Run: git submodule update --init"
+  exit 1
+fi
+
+echo "Syncing ${#ACTIVE[@]} submodule(s): ${ACTIVE[*]}"
+
+# ── Update each submodule ─────────────────────────────────────────────
+for d in "${ACTIVE[@]}"; do
+  printf '\n=== %s ===\n' "$d"
+
+  # Ensure we're on main
+  if ! git -C "$d" checkout main 2>&1; then
+    echo "  ⚠  could not checkout main in $d — branch may not exist; skipping pull"
+    continue
+  fi
+
+  # Fetch + rebase (faster than pull, avoids merge commits)
+  git -C "$d" fetch origin 2>&1
+  if git -C "$d" rev-parse --verify refs/remotes/origin/main >/dev/null 2>&1; then
+    git -C "$d" rebase origin/main 2>&1
+  fi
+
+  # Clean: remove untracked files, reset tracked ones to HEAD
+  git -C "$d" clean -df 2>&1
+  git -C "$d" checkout -- . 2>&1
+
+  printf '  ✓ %s @ %s\n' "$d" "$(git -C "$d" rev-parse --short HEAD)"
+done
+
+# ── Update parent commit pointers ─────────────────────────────────────
+git add .
+
+if git diff --cached --quiet; then
+  echo 'Nothing to commit — all submodules already at latest.'
+else
+  PARENT=$(git -C "${ACTIVE[0]}" rev-parse --short HEAD 2>/dev/null || echo "unknown")
+  git commit -m "chore: sync submodule pointers to latest main (@$PARENT)" 2>&1
+fi
+
+# ── Root-level tests ──────────────────────────────────────────────────
+if [[ -f package.json ]]; then
+  npm test 2>&1
+fi
+
+# ── Push ──────────────────────────────────────────────────────────────
+if [[ -z "$NO_PUSH" ]]; then
+  git push 2>&1
+  echo '✓ Pushed.'
+else
+  echo '⏸  Skipped push (--no-push).'
+fi
+
+echo 'Done.'
