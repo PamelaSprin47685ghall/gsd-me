@@ -8,6 +8,42 @@ This document defines the shared contract for the extension suite. `README.md` i
 
 After reading this spec, a maintainer should be able to change one extension without breaking the behavior of the full suite when every extension is enabled at the same time.
 
+## Meta-plugin architecture
+
+`gsd-me` is a **meta-plugin**: a valid pi extension (`package.json` with `pi.extensions`, plus an `index.js` entry) that references 5 plugin submodules. When installed via:
+
+```bash
+gsd install https://github.com/PamelaSprin47685ghall/gsd-me.git
+```
+
+pi adds the URL to `~/.gsd/agent/settings.json`. On first startup, `index.js` runs `git submodule update --init` for the 5 plugin submodules, then dynamically imports and activates each one. `gsd-2` (the pi framework source) is kept as a submodule for local development but is never auto-initialized — it is not needed at runtime.
+
+### File layout
+
+```
+gsd-me/
+├── index.js            # Meta-loader: init submodules → import all 5 plugins
+├── package.json         # pi.extensions: ["./index.js"]
+├── gsd-agent-loop/      # submodule
+├── gsd-explicit-reactive/ # submodule
+├── gsd-guardian/        # submodule
+├── gsd-magic-todo/      # submodule
+├── gsd-system-prompt/   # submodule
+├── gsd-2/               # submodule (local dev only, not auto-initialized)
+├── test/
+│   ├── meta-loader.test.mjs
+│   ├── plugin-compatibility.test.mjs
+│   ├── metadata-consistency.test.mjs
+│   └── self-injection.test.mjs
+└── SPEC.md
+```
+
+### Guarantees
+
+- `index.js` is idempotent: calling it twice does not double-register tools, commands, or hooks (each plugin has its own `WeakSet` guard).
+- Submodule init fails silently (offline, no network) — individual plugin `import()` errors propagate clearly.
+- `gsd-2` submodule is NOT listed in the init set, so it is never downloaded.
+
 ## Extensions
 
 | Extension | Contract |

@@ -1,62 +1,32 @@
-# GSD Extension Suite
+# gsd-me
 
-A community extension suite for GSD / pi. The extensions can be installed individually, but they are designed to work together.
+**GSD minimalist extension suite** — 一个 `gsd install` 装上全部 5 个插件。
 
-Current suite version: `5.1.0`.
+## Install
 
-## What is included
+```bash
+gsd install https://github.com/PamelaSprin47685ghall/gsd-me.git
+```
 
-| Extension | Purpose |
+首次启动时自动克隆并加载以下插件：
+
+| 插件 | 用途 |
 |---|---|
-| `gsd-system-prompt` | Stabilizes the system prompt, injects HINTS, prunes generated Codebase Map content, and adapts selected provider payloads. |
-| `gsd-magic-todo` | Adds structured todo state plus an append-only work backlog for long sessions. |
-| `gsd-agent-loop` | Adds explicit goal loops, fixed-pass loops, and staged pipelines. |
-| `gsd-guardian` | Recovers selected auto-mode failures without discarding current session context. |
-| `gsd-explicit-reactive` | Replaces inferred task parallelism with an explicit `DEPS.json` DAG. |
+| `gsd-system-prompt` | 稳定 system prompt，注入 HINTS，剪裁 Codebase Map，适配部分 provider payload |
+| `gsd-magic-todo` | 结构化待办 + 只增 backlog，带上下文折叠 |
+| `gsd-agent-loop` | 自动循环：goal 模式、定次 passes、管道 pipeline |
+| `gsd-guardian` | auto-mode 失败自动恢复 + 超时看门狗 |
+| `gsd-explicit-reactive` | 显式 DEPS.json DAG 任务引擎 |
 
-## Install the full suite
+> 无需 `npm install -g`，不下载 gsd-2 框架源码。`gsd install` 将 URL 添加到 `~/.gsd/agent/settings.json`，启动时自动克隆插件子模块。
 
-```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/PamelaSprin47685ghall/gsd-me/main/install.sh)
-```
+## Architecture
 
-Uninstall:
+本仓库是 **meta-plugin**：一个合法的 pi extension（`package.json` + `index.js`），通过 git submodule 引用 5 个独立插件仓库。`index.js` 在首次加载时自动 `git submodule update --init` 并逐一加载每个插件。
 
-```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/PamelaSprin47685ghall/gsd-me/main/remove.sh)
-```
-
-Install one extension:
-
-```bash
-gsd install https://github.com/PamelaSprin47685ghall/gsd-system-prompt
-```
-
-## Which extensions should I use?
-
-| Need | Install |
-|---|---|
-| More stable prompts and provider payloads | `gsd-system-prompt` |
-| Durable todo state across long sessions | `gsd-magic-todo` |
-| Agent loops that continue across turns | `gsd-agent-loop` |
-| Recovery from recoverable auto-mode failures | `gsd-guardian` |
-| Explicit task DAG execution | `gsd-explicit-reactive` |
-| The full auto-mode enhancement stack | all extensions |
-
-## How the suite fits together
-
-The suite uses a small-contract architecture:
-
-- no shared runtime package,
-- native ES modules,
-- consistent extension manifests,
-- self-injected extension entry paths for forked sessions and background agents,
-- unique tools, commands, and shortcuts,
-- conservative failure recovery so routine sibling-extension warnings do not trigger repair loops.
-
-## Maintainer spec
-
-See [`SPEC.md`](./SPEC.md) for the full behavior, compatibility, registration, and verification contract.
+- 每个插件独立开发、独立测试、独立版本号
+- 插件之间通过 `pi` API 注册 hooks/tools，互不依赖
+- 插件各自实现幂等注册，`gsd-me` 重复调用无副作用
 
 ## Test
 
@@ -64,7 +34,7 @@ See [`SPEC.md`](./SPEC.md) for the full behavior, compatibility, registration, a
 node --test test/*.test.mjs
 ```
 
-Run individual extension suites before release:
+各插件独立测试：
 
 ```bash
 cd gsd-system-prompt && npm test
@@ -73,6 +43,10 @@ cd ../gsd-agent-loop && npm test
 cd ../gsd-guardian && npm test
 cd ../gsd-explicit-reactive && npm test
 ```
+
+## Maintainer spec
+
+See [`SPEC.md`](./SPEC.md) for the full behavior, compatibility, registration, and verification contract.
 
 ## License
 
