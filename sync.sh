@@ -19,7 +19,20 @@ while [[ $# -gt 0 ]]; do
   case $1 in
     --no-push) NO_PUSH=1 ;;
     --help|-h)
-      sed -n '2,/^$/p; /^set -e/d' "$0" | sed 's/^# //; s/^#$//'
+      cat <<'EOF'
+sync.sh — developer sync tool for gsd-me submodule suite
+
+Usage:
+  ./sync.sh             sync all active submodules (push parent)
+  ./sync.sh --no-push   sync only, don't push parent commit
+  ./sync.sh --help      show this help
+
+Design:
+- Syncs all 5 plugin submodules (always active).
+- Also syncs gsd-2 IF the developer has initialized it.
+- Runs npm test before pushing to catch regressions.
+- Auto-converts submodule URLs from HTTPS to SSH for push access.
+EOF
       exit 0 ;;
     *) echo "unknown: $1"; exit 1 ;;
   esac
@@ -98,8 +111,12 @@ git add .
 if git diff --cached --quiet; then
   echo 'Nothing to commit — all submodules already at latest.'
 else
-  PARENT=$(git -C "${ACTIVE[0]}" rev-parse --short HEAD 2>/dev/null || echo "unknown")
-  git commit -m "chore: sync submodule pointers to latest main (@$PARENT)" 2>&1
+  PARENTS=""
+  for d in "${ACTIVE[@]}"; do
+    rev=$(git -C "$d" rev-parse --short HEAD 2>/dev/null || echo "?")
+    PARENTS="${PARENTS:+$PARENTS, }$d@$rev"
+  done
+  git commit -m "chore: sync submodule pointers ($PARENTS)" 2>&1
 fi
 
 # ── Root-level tests ──────────────────────────────────────────────────
@@ -111,7 +128,7 @@ fi
 for d in "${ACTIVE[@]}"; do
   if [[ -f "$d/package.json" ]] && grep -q '"test"' "$d/package.json"; then
     printf '\n=== Running tests in %s ===\n' "$d"
-    (cd "$d" && npm test 2>&1) || echo "  ⚠  Tests failed in $d"
+    (cd "$d" && npm test 2>&1) || { echo "  ✗ Tests failed in $d"; exit 1; }
   fi
 done
 

@@ -12,7 +12,7 @@ const plugins = [
 
 const importPlugin = async pluginName => {
   const url = new URL(`../${pluginName}/index.js`, import.meta.url);
-  url.search = `?t=${Date.now()}_${Math.random().toString(36).slice(2)}`;
+  url.search = `?t=${Date.now()}`;
   return import(url.href);
 };
 

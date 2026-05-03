@@ -28,7 +28,7 @@ function initSubmodules(rootDir) {
   const result = spawnSync(
     "git",
     ["submodule", "update", "--init", ...missing],
-    { cwd: rootDir, stdio: "inherit", timeout: 60_000 },
+    { cwd: rootDir, stdio: "pipe", timeout: 60_000, encoding: "utf-8" },
   );
 
   if (result.error) {
@@ -38,11 +38,16 @@ function initSubmodules(rootDir) {
     );
   }
 
-  if (result.status !== 0) {
+  if (result.status != null && result.status !== 0) {
+    const stderr = result.stderr?.trim() || "";
     throw new Error(
-      `[gsd-me] git submodule update failed with exit code ${result.status}\n` +
+      `[gsd-me] git submodule update failed with exit code ${result.status}${stderr ? `\n${stderr}` : ""}\n` +
       `Try running: cd ${rootDir} && git submodule update --init --recursive`
     );
+  }
+
+  if (result.stdout) {
+    console.log(result.stdout.trim());
   }
 
   // Verify all submodules are now present

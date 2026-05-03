@@ -52,12 +52,15 @@ describe("gsd-me meta-plugin", () => {
     const harness = createMetaHarness();
 
     await gsdMe(harness.pi);
+    const initialToolsSize = harness.tools.size;
+    const initialCommandsSize = harness.commands.size;
+
     await gsdMe(harness.pi);
 
     // No duplicate tools
-    assert.equal(harness.tools.size, 3);
+    assert.equal(harness.tools.size, initialToolsSize);
     // No duplicate commands
-    assert.equal(harness.commands.size, 2);
+    assert.equal(harness.commands.size, initialCommandsSize);
   });
 
   it("registers hook handlers for all 5 plugins", async () => {
