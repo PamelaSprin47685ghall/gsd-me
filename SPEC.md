@@ -31,10 +31,10 @@ gsd-me/
 ├── gsd-system-prompt/   # submodule
 ├── gsd-2/               # submodule (local dev only, not auto-initialized)
 ├── test/
-│   ├── meta-loader.test.mjs
-│   ├── plugin-compatibility.test.mjs
-│   ├── metadata-consistency.test.mjs
-│   └── self-injection.test.mjs
+│   ├── meta-loader.test.js
+│   ├── plugin-compatibility.test.js
+│   ├── metadata-consistency.test.js
+│   └── self-injection.test.js
 └── SPEC.md
 ```
 
@@ -46,13 +46,13 @@ gsd-me/
 
 ## Extensions
 
-| Extension | Contract |
-|---|---|
-| `gsd-system-prompt` | Stabilizes outbound prompt and provider payload projections without rewriting session history. |
-| `gsd-magic-todo` | Maintains structured todo state and durable work backlog across context folding and session navigation. |
-| `gsd-agent-loop` | Adds explicit loop state, loop commands, and a loop-control tool for multi-turn agent work. |
-| `gsd-guardian` | Recovers selected auto-mode failures without treating routine sibling-extension notifications as failures. |
-| `gsd-explicit-reactive` | Runs slice tasks through an explicit `DEPS.json` DAG instead of implicit dependency inference. |
+| Extension               | Contract                                                                                                   |
+| ----------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `gsd-system-prompt`     | Stabilizes outbound prompt and provider payload projections without rewriting session history.             |
+| `gsd-magic-todo`        | Maintains structured todo state and durable work backlog across context folding and session navigation.    |
+| `gsd-agent-loop`        | Adds explicit loop state, loop commands, and a loop-control tool for multi-turn agent work.                |
+| `gsd-guardian`          | Recovers selected auto-mode failures without treating routine sibling-extension notifications as failures. |
+| `gsd-explicit-reactive` | Runs slice tasks through an explicit `DEPS.json` DAG instead of implicit dependency inference.             |
 
 ## Shared packaging contract
 
@@ -171,7 +171,7 @@ Rules:
 Before release, run:
 
 ```bash
-node --test test/*.test.mjs
+node --test test/*.test.js
 ```
 
 Then run every extension test suite:
