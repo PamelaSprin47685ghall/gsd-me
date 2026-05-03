@@ -23,18 +23,40 @@ function initSubmodules(rootDir) {
   );
   if (missing.length === 0) return;
 
-  try {
-    spawnSync(
-      "git",
-      ["submodule", "update", "--init", ...missing],
-      { cwd: rootDir, stdio: "ignore", timeout: 60_000 },
-    );
-  } catch (err) {
-    console.warn(
-      `[gsd-me] submodule init failed for: ${missing.join(", ")}. ` +
-      `Run 'git submodule update --init' to fix, or reinstall with 'gsd install'.`,
+  console.log(`[gsd-me] Initializing ${missing.length} submodule(s): ${missing.join(", ")}`);
+
+  const result = spawnSync(
+    "git",
+    ["submodule", "update", "--init", ...missing],
+    { cwd: rootDir, stdio: "inherit", timeout: 60_000 },
+  );
+
+  if (result.error) {
+    throw new Error(
+      `[gsd-me] Failed to initialize submodules: ${result.error.message}\n` +
+      `Try running: cd ${rootDir} && git submodule update --init --recursive`
     );
   }
+
+  if (result.status !== 0) {
+    throw new Error(
+      `[gsd-me] git submodule update failed with exit code ${result.status}\n` +
+      `Try running: cd ${rootDir} && git submodule update --init --recursive`
+    );
+  }
+
+  // Verify all submodules are now present
+  const stillMissing = PLUGIN_SUBMODULES.filter(
+    (name) => !existsSync(join(rootDir, name, "index.js")),
+  );
+  if (stillMissing.length > 0) {
+    throw new Error(
+      `[gsd-me] Submodules still missing after init: ${stillMissing.join(", ")}\n` +
+      `Try running: cd ${rootDir} && git submodule update --init --recursive`
+    );
+  }
+
+  console.log(`[gsd-me] ✓ All submodules initialized successfully`);
 }
 
 /**
