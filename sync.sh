@@ -67,6 +67,11 @@ fi
 ACTIVE=()
 for d in gsd-explicit-reactive gsd-guardian gsd-system-prompt gsd-magic-todo gsd-agent-loop; do
   if [[ -d "$d/.git" || -f "$d/.git" ]]; then
+    # Check for uncommitted changes before checkout
+    if ! git -C "$d" diff --quiet 2>/dev/null; then
+      echo "  ⚠  $d has uncommitted changes. Stash or commit first."
+      exit 1
+    fi
     ACTIVE+=("$d")
   fi
 done
