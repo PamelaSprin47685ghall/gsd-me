@@ -52,7 +52,7 @@ async function loadPlugin(pi, pluginName) {
 
   const mod = await import(entry);
   const factory = mod.default ?? mod;
-  if (typeof factory === "function") factory(pi);
+  if (typeof factory === "function") await factory(pi);
 }
 
 export default async function gsdMe(pi) {
