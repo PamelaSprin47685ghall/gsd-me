@@ -1,4 +1,4 @@
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 import { spawnSync } from 'node:child_process'
 import { existsSync } from 'node:fs'
 import { dirname, join } from 'node:path'
@@ -30,7 +30,13 @@ function initSubmodules(rootDir) {
   const result = spawnSync(
     'git',
     ['submodule', 'update', '--init', ...missing],
-    { cwd: rootDir, stdio: 'pipe', timeout: 60_000, encoding: 'utf-8' },
+    {
+      cwd: rootDir,
+      stdio: 'pipe',
+      timeout: 60_000,
+      encoding: 'utf-8',
+      env: { ...process.env, GIT_TERMINAL_PROMPT: '0' },
+    },
   )
 
   if (result.error) {
@@ -78,7 +84,7 @@ async function loadPlugin(pi, pluginName) {
     )
   }
 
-  const mod = await import(entry)
+  const mod = await import(pathToFileURL(entry).href)
   const factory = mod.default ?? mod
   if (typeof factory === 'function') await factory(pi)
 }
