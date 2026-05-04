@@ -44,3 +44,6 @@
 	url = git@github.com:PamelaSprin47685ghall/gsd-fff.git
 	branch = main
 	update = merge
+[submodule "gsd-syntax"]
+	path = gsd-syntax
+	url = git@github.com:PamelaSprin47685ghall/gsd-syntax.git
