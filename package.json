@@ -28,7 +28,8 @@
     ]
   },
   "dependencies": {
-    "@ff-labs/fff-node": "^0.7.0"
+    "@ff-labs/fff-node": "^0.7.0",
+    "@kreuzberg/tree-sitter-language-pack": "^1.6.2"
   },
   "devDependencies": {
     "husky": "^9.1.7",
