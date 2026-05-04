@@ -34,3 +34,8 @@
 	url = git@github.com:PamelaSprin47685ghall/gsd-web-search.git
 	branch = main
 	update = merge
+[submodule "gsd-advisor"]
+	path = gsd-advisor
+	url = git@github.com:PamelaSprin47685ghall/gsd-advisor.git
+	branch = main
+	update = merge

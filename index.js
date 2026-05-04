@@ -3,8 +3,8 @@ import { spawnSync } from 'node:child_process'
 import { existsSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 
-// ── Submodules that this meta-plugin manages ──
 const PLUGIN_SUBMODULES = [
+  'gsd-advisor',
   'gsd-agent-loop',
   'gsd-explicit-reactive',
   'gsd-guardian',
@@ -96,7 +96,7 @@ export default async function gsdMe(pi) {
   // 1. Populate submodules on first load
   initSubmodules(rootDir)
 
-  // 2. Load all 6 plugins
+  // 2. Load all 7 plugins
   for (const name of PLUGIN_SUBMODULES) {
     await loadPlugin(pi, name)
   }
