@@ -27,6 +27,9 @@
       "./index.js"
     ]
   },
+  "dependencies": {
+    "@ff-labs/fff-node": "^0.7.0"
+  },
   "devDependencies": {
     "husky": "^9.1.7",
     "lint-staged": "^16.4.0",
