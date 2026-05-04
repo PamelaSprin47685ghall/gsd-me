@@ -39,3 +39,5 @@ trueline-mcp/
 .pi/
 SCRIPT
 .grepai/
+# CocoIndex Code (ccc)
+/.cocoindex_code/
