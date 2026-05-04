@@ -12,13 +12,13 @@ gsd install https://github.com/PamelaSprin47685ghall/gsd-me
 
 首次启动时自动克隆并加载以下插件：
 
-| 插件 | 用途 |
-|---|---|
-| `gsd-system-prompt` | 稳定 system prompt，注入 HINTS，剪裁 Codebase Map，适配部分 provider payload |
-| `gsd-magic-todo` | 结构化待办 + 只增 backlog，带上下文折叠 |
-| `gsd-agent-loop` | 自动循环：goal 模式、定次 passes、管道 pipeline |
-| `gsd-guardian` | auto-mode 失败自动恢复 + 超时看门狗 |
-| `gsd-explicit-reactive` | 显式 DEPS.json DAG 任务引擎 |
+| 插件                    | 用途                                                                         |
+| ----------------------- | ---------------------------------------------------------------------------- |
+| `gsd-system-prompt`     | 稳定 system prompt，注入 HINTS，剪裁 Codebase Map，适配部分 provider payload |
+| `gsd-magic-todo`        | 结构化待办 + 只增 backlog，带上下文折叠                                      |
+| `gsd-agent-loop`        | 自动循环：goal 模式、定次 passes、管道 pipeline                              |
+| `gsd-guardian`          | auto-mode 失败自动恢复 + 超时看门狗                                          |
+| `gsd-explicit-reactive` | 显式 DEPS.json DAG 任务引擎                                                  |
 
 > 无需 `npm install -g`，不下载 gsd-2 框架源码。`gsd install` 将 URL 添加到 `~/.gsd/agent/settings.json`，启动时自动克隆插件子模块。
 
@@ -67,7 +67,7 @@ The `dev-setup.sh` script converts submodule URLs from HTTPS to SSH in your loca
 ## Test
 
 ```bash
-node --test test/*.test.mjs
+node --test test/*.test.js
 ```
 
 各插件独立测试：

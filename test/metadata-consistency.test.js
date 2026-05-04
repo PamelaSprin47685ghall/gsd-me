@@ -1,88 +1,129 @@
-import assert from "node:assert/strict";
-import fs from "node:fs";
-import path from "node:path";
-import { describe, test } from "node:test";
+import assert from 'node:assert/strict'
+import fs from 'node:fs'
+import path from 'node:path'
+import { describe, test } from 'node:test'
 
 const plugins = [
   {
-    dir: "gsd-agent-loop",
+    dir: 'gsd-agent-loop',
     manifest: {
-      id: "agent-loop",
-      tools: ["loop_control"],
-      commands: ["loop", "loop-stop"],
-      hooks: ["session_start", "session_switch", "session_fork", "session_tree", "before_agent_start"],
-      shortcuts: ["Ctrl+Shift+X"],
+      id: 'agent-loop',
+      tools: ['loop_control'],
+      commands: ['loop', 'loop-stop'],
+      hooks: [
+        'session_start',
+        'session_switch',
+        'session_fork',
+        'session_tree',
+        'before_agent_start',
+      ],
+      shortcuts: ['Ctrl+Shift+X'],
     },
   },
   {
-    dir: "gsd-explicit-reactive",
+    dir: 'gsd-explicit-reactive',
     manifest: {
-      id: "explicit-reactive",
-      tools: ["_wait_for_dag_completion"],
-      hooks: ["session_start", "session_shutdown"],
+      id: 'explicit-reactive',
+      tools: ['_wait_for_dag_completion'],
+      hooks: ['session_start', 'session_shutdown'],
     },
   },
   {
-    dir: "gsd-guardian",
+    dir: 'gsd-guardian',
     manifest: {
-      id: "guardian",
-      hooks: ["agent_end", "notification", "session_before_switch", "session_start", "before_agent_start", "stop"],
+      id: 'guardian',
+      hooks: [
+        'agent_end',
+        'notification',
+        'session_before_switch',
+        'session_start',
+        'before_agent_start',
+        'stop',
+      ],
     },
   },
   {
-    dir: "gsd-magic-todo",
+    dir: 'gsd-magic-todo',
     manifest: {
-      id: "magic-todo",
-      tools: ["manage_todo_list"],
-      hooks: ["session_start", "session_switch", "session_fork", "session_tree", "context", "session_before_compact"],
+      id: 'magic-todo',
+      tools: ['manage_todo_list'],
+      hooks: [
+        'session_start',
+        'session_switch',
+        'session_fork',
+        'session_tree',
+        'context',
+        'session_before_compact',
+      ],
     },
   },
   {
-    dir: "gsd-system-prompt",
+    dir: 'gsd-system-prompt',
     manifest: {
-      id: "system-prompt",
-      hooks: ["before_agent_start", "before_provider_request"],
+      id: 'system-prompt',
+      hooks: ['before_agent_start', 'before_provider_request'],
     },
   },
-];
+]
 
-const readJson = file => JSON.parse(fs.readFileSync(file, "utf8"));
-import { fileURLToPath } from "node:url";
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const sorted = value => [...(value || [])].sort();
+const readJson = (file) => JSON.parse(fs.readFileSync(file, 'utf8'))
+import { fileURLToPath } from 'node:url'
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const sorted = (value) => [...(value || [])].sort()
 
-describe("plugin package and manifest consistency", () => {
-  test("all plugins share the suite version and install entry style", () => {
-    const rootDir = path.resolve(__dirname, "..");
-    const rootPkgVersion = JSON.parse(fs.readFileSync(path.join(rootDir, "package.json"), "utf8")).version;
+describe('plugin package and manifest consistency', () => {
+  test('all plugins share the suite version and install entry style', () => {
+    const rootDir = path.resolve(__dirname, '..')
+    const rootPkgVersion = JSON.parse(
+      fs.readFileSync(path.join(rootDir, 'package.json'), 'utf8'),
+    ).version
 
-    const versions = new Set();
+    const versions = new Set()
 
     for (const plugin of plugins) {
-      const packageJson = readJson(path.join(plugin.dir, "package.json"));
-      const manifest = readJson(path.join(plugin.dir, "extension-manifest.json"));
+      const packageJson = readJson(path.join(plugin.dir, 'package.json'))
+      const manifest = readJson(
+        path.join(plugin.dir, 'extension-manifest.json'),
+      )
 
-      versions.add(packageJson.version);
-      versions.add(manifest.version);
-      assert.equal(packageJson.type, "module");
-      assert.equal(packageJson.exports, "./index.js");
-      assert.deepEqual(packageJson.pi?.extensions, ["./index.js"]);
-      assert.equal(packageJson.gsd?.extension, true);
-      assert.equal(manifest.tier, "community");
-      assert.deepEqual(manifest.requires, { platform: ">=2.29.0" });
+      versions.add(packageJson.version)
+      versions.add(manifest.version)
+      assert.equal(packageJson.type, 'module')
+      assert.equal(packageJson.exports, './index.js')
+      assert.deepEqual(packageJson.pi?.extensions, ['./index.js'])
+      assert.equal(packageJson.gsd?.extension, true)
+      assert.equal(manifest.tier, 'community')
+      assert.deepEqual(manifest.requires, { platform: '>=2.29.0' })
     }
 
-    assert.ok([...versions].every(v => v === rootPkgVersion), `all versions must match root package.json (${rootPkgVersion}), got: ${[...versions].join(", ")}`);
-  });
+    assert.ok(
+      [...versions].every((v) => v === rootPkgVersion),
+      `all versions must match root package.json (${rootPkgVersion}), got: ${[...versions].join(', ')}`,
+    )
+  })
 
-  test("manifests declare the actual public extension surface", () => {
+  test('manifests declare the actual public extension surface', () => {
     for (const plugin of plugins) {
-      const manifest = readJson(path.join(plugin.dir, "extension-manifest.json"));
-      assert.equal(manifest.id, plugin.manifest.id);
-      assert.deepEqual(sorted(manifest.provides?.tools), sorted(plugin.manifest.tools));
-      assert.deepEqual(sorted(manifest.provides?.commands), sorted(plugin.manifest.commands));
-      assert.deepEqual(sorted(manifest.provides?.hooks), sorted(plugin.manifest.hooks));
-      assert.deepEqual(sorted(manifest.provides?.shortcuts), sorted(plugin.manifest.shortcuts));
+      const manifest = readJson(
+        path.join(plugin.dir, 'extension-manifest.json'),
+      )
+      assert.equal(manifest.id, plugin.manifest.id)
+      assert.deepEqual(
+        sorted(manifest.provides?.tools),
+        sorted(plugin.manifest.tools),
+      )
+      assert.deepEqual(
+        sorted(manifest.provides?.commands),
+        sorted(plugin.manifest.commands),
+      )
+      assert.deepEqual(
+        sorted(manifest.provides?.hooks),
+        sorted(plugin.manifest.hooks),
+      )
+      assert.deepEqual(
+        sorted(manifest.provides?.shortcuts),
+        sorted(plugin.manifest.shortcuts),
+      )
     }
-  });
-});
+  })
+})

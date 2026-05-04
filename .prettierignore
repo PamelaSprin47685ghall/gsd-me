@@ -2,3 +2,5 @@ package-lock.json
 .gsd/
 dist/
 node_modules/
+gsd-2/
+*.min.js
