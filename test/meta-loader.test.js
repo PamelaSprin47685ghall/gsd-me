@@ -128,6 +128,8 @@ describe('gsd-me meta-plugin', () => {
           "export default function plugin(pi) { pi.on('notification', () => {}); }\n",
         'gsd-magic-todo':
           "export default function plugin(pi) { pi.registerTool({ name: 'manage_todo_list' }); }\n",
+        'gsd-syntax':
+          "export default function plugin(pi) { pi.on('tool_result', () => {}); }\n",
         'gsd-system-prompt':
           "export default function plugin(pi) { pi.on('before_agent_start', () => {}); }\n",
         'gsd-web-search':
@@ -212,6 +214,11 @@ EOF
 mkdir -p "\${GSD_ME_TEST_ROOT}/gsd-magic-todo"
 cat <<'EOF' > "\${GSD_ME_TEST_ROOT}/gsd-magic-todo/index.js"
 export default function plugin(pi) { pi.registerTool({ name: 'manage_todo_list' }); }
+EOF
+
+mkdir -p "\${GSD_ME_TEST_ROOT}/gsd-syntax"
+cat <<'EOF' > "\${GSD_ME_TEST_ROOT}/gsd-syntax/index.js"
+export default function plugin(pi) { pi.on('tool_result', () => {}); }
 EOF
 
 mkdir -p "\${GSD_ME_TEST_ROOT}/gsd-system-prompt"

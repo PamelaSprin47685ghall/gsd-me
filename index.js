@@ -98,8 +98,12 @@ export default async function gsdMe(pi) {
   // 1. Populate submodules on first load
   initSubmodules(rootDir)
 
-  // 2. Load all 7 plugins
+  // 2. Load all plugins
   for (const name of PLUGIN_SUBMODULES) {
-    await loadPlugin(pi, name)
+    try {
+      await loadPlugin(pi, name)
+    } catch (err) {
+      console.warn(`[gsd-me] Failed to load plugin ${name}: ${err.message}`)
+    }
   }
 }

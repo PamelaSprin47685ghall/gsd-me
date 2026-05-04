@@ -5,6 +5,15 @@ import { describe, test } from 'node:test'
 
 const plugins = [
   {
+    dir: 'gsd-advisor',
+    manifest: {
+      id: 'advisor',
+      tools: ['advisor'],
+      commands: ['advisor'],
+      hooks: ['session_start', 'before_agent_start'],
+    },
+  },
+  {
     dir: 'gsd-agent-loop',
     manifest: {
       id: 'agent-loop',
@@ -25,6 +34,15 @@ const plugins = [
     manifest: {
       id: 'explicit-reactive',
       tools: ['_wait_for_dag_completion'],
+      hooks: ['session_start', 'session_shutdown'],
+    },
+  },
+  {
+    dir: 'gsd-fff',
+    manifest: {
+      id: 'fff',
+      tools: ['ffgrep', 'fffind'],
+      commands: ['fff-mode', 'fff-health', 'fff-rescan'],
       hooks: ['session_start', 'session_shutdown'],
     },
   },
@@ -58,10 +76,27 @@ const plugins = [
     },
   },
   {
+    dir: 'gsd-syntax',
+    manifest: {
+      id: 'syntax',
+      tools: [],
+      hooks: ['tool_result'],
+    },
+  },
+  {
     dir: 'gsd-system-prompt',
     manifest: {
       id: 'system-prompt',
       hooks: ['before_agent_start', 'before_provider_request'],
+    },
+  },
+  {
+    dir: 'gsd-web-search',
+    manifest: {
+      id: 'web-search',
+      tools: ['web_search', 'web_fetch'],
+      commands: ['ollama-key'],
+      hooks: [],
     },
   },
 ]

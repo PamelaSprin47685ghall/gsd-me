@@ -10,19 +10,19 @@ After reading this spec, a maintainer should be able to change one extension wit
 
 ## Meta-plugin architecture
 
-`gsd-me` is a **meta-plugin**: a valid pi extension (`package.json` with `pi.extensions`, plus an `index.js` entry) that references 5 plugin submodules. When installed via:
+`gsd-me` is a **meta-plugin**: a valid pi extension (`package.json` with `pi.extensions`, plus an `index.js` entry) that references 9 plugin submodules. When installed via:
 
 ```bash
 gsd install https://github.com/PamelaSprin47685ghall/gsd-me.git
 ```
 
-pi adds the URL to `~/.gsd/agent/settings.json`. On first startup, `index.js` runs `git submodule update --init` for the 5 plugin submodules, then dynamically imports and activates each one. `gsd-2` (the pi framework source) is kept as a submodule for local development but is never auto-initialized — it is not needed at runtime.
+pi adds the URL to `~/.gsd/agent/settings.json`. On first startup, `index.js` runs `git submodule update --init` for the 9 plugin submodules, then dynamically imports and activates each one. `gsd-2` (the pi framework source) is kept as a submodule for local development but is never auto-initialized — it is not needed at runtime.
 
 ### File layout
 
 ```
 gsd-me/
-├── index.js            # Meta-loader: init submodules → import all 5 plugins
+├── index.js            # Meta-loader: init submodules → import all 9 plugins
 ├── package.json         # pi.extensions: ["./index.js"]
 ├── gsd-agent-loop/      # submodule
 ├── gsd-explicit-reactive/ # submodule
