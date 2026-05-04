@@ -38,3 +38,4 @@ trueline-mcp/
 # ── Runtime data ──
 .pi/
 SCRIPT
+.grepai/
