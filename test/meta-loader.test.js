@@ -116,10 +116,14 @@ describe('gsd-me meta-plugin', () => {
       )
 
       const fixtureModules = {
+        'gsd-advisor':
+          "export default async function plugin(pi) { pi.registerTool({ name: 'advisor' }); pi.registerCommand('advisor', {}); }\n",
         'gsd-agent-loop':
           "export default async function plugin(pi) { pi.registerTool({ name: 'loop_control' }); pi.registerCommand('loop', {}); pi.registerCommand('loop-stop', {}); pi.on('context', () => {}); pi.on('session_start', () => {}); }\n",
         'gsd-explicit-reactive':
           "export default async function plugin(pi) { pi.registerTool({ name: '_wait_for_dag_completion' }); }\n",
+        'gsd-fff':
+          "export default async function plugin(pi) { pi.registerTool({ name: 'ffgrep' }); pi.registerTool({ name: 'fffind' }); pi.registerCommand('fff-mode', {}); }\n",
         'gsd-guardian':
           "export default function plugin(pi) { pi.on('notification', () => {}); }\n",
         'gsd-magic-todo':
@@ -180,6 +184,11 @@ describe('gsd-me meta-plugin', () => {
 set -euo pipefail
 printf '%s' "\${GIT_TERMINAL_PROMPT:-}" > "\${GSD_ME_TEST_PROMPT_LOG}"
 
+mkdir -p "\${GSD_ME_TEST_ROOT}/gsd-advisor"
+cat <<'EOF' > "\${GSD_ME_TEST_ROOT}/gsd-advisor/index.js"
+export default async function plugin(pi) { pi.registerTool({ name: 'advisor' }); pi.registerCommand('advisor', {}); }
+EOF
+
 mkdir -p "\${GSD_ME_TEST_ROOT}/gsd-agent-loop"
 cat <<'EOF' > "\${GSD_ME_TEST_ROOT}/gsd-agent-loop/index.js"
 export default async function plugin(pi) { pi.registerTool({ name: 'loop_control' }); pi.registerCommand('loop', {}); pi.registerCommand('loop-stop', {}); pi.on('context', () => {}); pi.on('session_start', () => {}); }
@@ -188,6 +197,11 @@ EOF
 mkdir -p "\${GSD_ME_TEST_ROOT}/gsd-explicit-reactive"
 cat <<'EOF' > "\${GSD_ME_TEST_ROOT}/gsd-explicit-reactive/index.js"
 export default async function plugin(pi) { pi.registerTool({ name: '_wait_for_dag_completion' }); }
+EOF
+
+mkdir -p "\${GSD_ME_TEST_ROOT}/gsd-fff"
+cat <<'EOF' > "\${GSD_ME_TEST_ROOT}/gsd-fff/index.js"
+export default async function plugin(pi) { pi.registerTool({ name: 'ffgrep' }); pi.registerTool({ name: 'fffind' }); pi.registerCommand('fff-mode', {}); }
 EOF
 
 mkdir -p "\${GSD_ME_TEST_ROOT}/gsd-guardian"
