@@ -1,7 +1,7 @@
 {
   "name": "gsd-me",
   "version": "5.1.0",
-  "description": "GSD minimalist extension suite — one install brings all five plugins.",
+  "description": "GSD minimalist extension suite — one install brings all six plugins.",
   "type": "module",
   "exports": "./index.js",
   "scripts": {

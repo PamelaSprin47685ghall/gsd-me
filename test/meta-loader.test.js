@@ -44,7 +44,7 @@ function createMetaHarness() {
 }
 
 describe('gsd-me meta-plugin', () => {
-  it('loads all 5 plugin factories without error', async () => {
+  it('loads all plugin factories without error', async () => {
     const harness = createMetaHarness()
 
     await gsdMe(harness.pi)
@@ -59,6 +59,8 @@ describe('gsd-me meta-plugin', () => {
       harness.tools.has('_wait_for_dag_completion'),
       'explicit-reactive: _wait_for_dag_completion',
     )
+    assert.ok(harness.tools.has('web_search'), 'web-search: web_search')
+    assert.ok(harness.tools.has('web_fetch'), 'web-search: web_fetch')
     // Guardian and system-prompt only register event hooks, not tools
 
     // Verify commands from agent-loop
@@ -124,6 +126,8 @@ describe('gsd-me meta-plugin', () => {
           "export default function plugin(pi) { pi.registerTool({ name: 'manage_todo_list' }); }\n",
         'gsd-system-prompt':
           "export default function plugin(pi) { pi.on('before_agent_start', () => {}); }\n",
+        'gsd-web-search':
+          "export default function plugin(pi) { pi.registerTool({ name: 'web_search' }); pi.registerTool({ name: 'web_fetch' }); }\n",
       }
 
       for (const [pluginName, source] of Object.entries(fixtureModules)) {
@@ -141,6 +145,8 @@ describe('gsd-me meta-plugin', () => {
       assert.ok(harness.tools.has('loop_control'))
       assert.ok(harness.tools.has('manage_todo_list'))
       assert.ok(harness.tools.has('_wait_for_dag_completion'))
+      assert.ok(harness.tools.has('web_search'))
+      assert.ok(harness.tools.has('web_fetch'))
       assert.ok(harness.commands.has('loop'))
       assert.ok(harness.commands.has('loop-stop'))
       assert.ok(harness.handlers.has('before_agent_start'))
@@ -197,6 +203,11 @@ EOF
 mkdir -p "\${GSD_ME_TEST_ROOT}/gsd-system-prompt"
 cat <<'EOF' > "\${GSD_ME_TEST_ROOT}/gsd-system-prompt/index.js"
 export default function plugin(pi) { pi.on('before_agent_start', () => {}); }
+EOF
+
+mkdir -p "\${GSD_ME_TEST_ROOT}/gsd-web-search"
+cat <<'EOF' > "\${GSD_ME_TEST_ROOT}/gsd-web-search/index.js"
+export default function plugin(pi) { pi.registerTool({ name: 'web_search' }); pi.registerTool({ name: 'web_fetch' }); }
 EOF
 `,
       )

@@ -10,6 +10,7 @@ const PLUGIN_SUBMODULES = [
   'gsd-guardian',
   'gsd-magic-todo',
   'gsd-system-prompt',
+  'gsd-web-search',
 ]
 
 /**
@@ -95,7 +96,7 @@ export default async function gsdMe(pi) {
   // 1. Populate submodules on first load
   initSubmodules(rootDir)
 
-  // 2. Load all 5 plugins
+  // 2. Load all 6 plugins
   for (const name of PLUGIN_SUBMODULES) {
     await loadPlugin(pi, name)
   }
