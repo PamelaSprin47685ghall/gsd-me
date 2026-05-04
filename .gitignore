@@ -34,3 +34,7 @@ trueline-mcp/
 
 # ── Developer reference (optional: git submodule update --init gsd-2) ──
 /gsd-2/
+
+# ── Runtime data ──
+.pi/
+SCRIPT
