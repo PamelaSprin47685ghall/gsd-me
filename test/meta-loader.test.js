@@ -127,7 +127,7 @@ describe('gsd-me meta-plugin', () => {
         'gsd-system-prompt':
           "export default function plugin(pi) { pi.on('before_agent_start', () => {}); }\n",
         'gsd-web-search':
-          "export default function plugin(pi) { pi.registerTool({ name: 'web_search' }); pi.registerTool({ name: 'web_fetch' }); }\n",
+          "export default function plugin(pi) { pi.registerTool({ name: 'web_search' }); pi.registerTool({ name: 'web_fetch' }); pi.registerCommand('ollama-key', {}); }\n",
       }
 
       for (const [pluginName, source] of Object.entries(fixtureModules)) {
@@ -207,7 +207,7 @@ EOF
 
 mkdir -p "\${GSD_ME_TEST_ROOT}/gsd-web-search"
 cat <<'EOF' > "\${GSD_ME_TEST_ROOT}/gsd-web-search/index.js"
-export default function plugin(pi) { pi.registerTool({ name: 'web_search' }); pi.registerTool({ name: 'web_fetch' }); }
+export default function plugin(pi) { pi.registerTool({ name: 'web_search' }); pi.registerTool({ name: 'web_fetch' }); pi.registerCommand('ollama-key', {}); }
 EOF
 `,
       )

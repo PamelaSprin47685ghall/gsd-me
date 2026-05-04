@@ -5,6 +5,7 @@ import explicitReactivePlugin from '../gsd-explicit-reactive/index.js'
 import guardianPlugin from '../gsd-guardian/index.js'
 import magicTodoPlugin from '../gsd-magic-todo/index.js'
 import systemPromptPlugin from '../gsd-system-prompt/index.js'
+import webSearchPlugin from '../gsd-web-search/index.js'
 import { shouldRecoverFromNotification } from '../gsd-guardian/src/notification-listener.js'
 
 const createPluginHarness = ({ strictRegistration = false } = {}) => {
@@ -122,6 +123,7 @@ describe('all bundled plugins compatibility', () => {
     guardianPlugin(harness.pi)
     magicTodoPlugin(harness.pi)
     systemPromptPlugin(harness.pi)
+    await webSearchPlugin(harness.pi)
 
     assert.ok(harness.tools.has('loop_control'))
     assert.ok(harness.tools.has('manage_todo_list'))
@@ -193,6 +195,7 @@ describe('all bundled plugins compatibility', () => {
     guardianPlugin(harness.pi)
     magicTodoPlugin(harness.pi)
     systemPromptPlugin(harness.pi)
+    await webSearchPlugin(harness.pi)
 
     const hookCounts = new Map(
       [...harness.handlers].map(([name, callbacks]) => [
@@ -206,6 +209,7 @@ describe('all bundled plugins compatibility', () => {
     guardianPlugin(harness.pi)
     magicTodoPlugin(harness.pi)
     systemPromptPlugin(harness.pi)
+    await webSearchPlugin(harness.pi)
 
     assert.deepEqual(
       new Map(
@@ -216,8 +220,8 @@ describe('all bundled plugins compatibility', () => {
       ),
       hookCounts,
     )
-    assert.equal(harness.tools.size, 3)
-    assert.equal(harness.commands.size, 2)
+    assert.equal(harness.tools.size, 5)
+    assert.equal(harness.commands.size, 3)
   })
 
   it('recovers from one-time initialization failures across all plugins', async () => {
@@ -302,6 +306,25 @@ describe('all bundled plugins compatibility', () => {
       assert.doesNotThrow(() => systemPromptPlugin(pi))
       assert.ok(handlers.has('before_agent_start'))
       assert.ok(handlers.has('before_provider_request'))
+    }
+
+    {
+      const tools = new Map()
+      const commands = new Map()
+      const pi = {
+        on: () => {},
+        registerTool: createFailOnce(
+          (tool) => tools.set(tool.name, tool),
+          'web-search transient',
+        ),
+        registerCommand: (name, config) => commands.set(name, config),
+      }
+
+      await assert.rejects(() => webSearchPlugin(pi), /web-search transient/)
+      await assert.doesNotReject(() => webSearchPlugin(pi))
+      assert.ok(tools.has('web_search'))
+      assert.ok(tools.has('web_fetch'))
+      assert.ok(commands.has('ollama-key'))
     }
   })
 

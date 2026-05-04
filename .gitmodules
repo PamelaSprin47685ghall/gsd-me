@@ -31,6 +31,6 @@
 	ignore = all
 [submodule "gsd-web-search"]
 	path = gsd-web-search
-	url = https://github.com/PamelaSprin47685ghall/gsd-web-search.git
+	url = git@github.com:PamelaSprin47685ghall/gsd-web-search.git
 	branch = main
 	update = merge
