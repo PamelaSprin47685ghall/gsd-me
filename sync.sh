@@ -42,7 +42,7 @@ done
 # ── Auto-convert HTTPS to SSH for developers ──────────────────────────
 echo "Checking submodule URLs..."
 CONVERTED=0
-for d in gsd-advisor gsd-explicit-reactive gsd-guardian gsd-system-prompt gsd-magic-todo gsd-agent-loop gsd-2; do
+for d in gsd-advisor gsd-explicit-reactive gsd-guardian gsd-fff gsd-system-prompt gsd-magic-todo gsd-agent-loop gsd-2; do
   if [[ -d "$d" ]]; then
     # Get current remote URL
     current_url=$(git -C "$d" remote get-url origin 2>/dev/null || echo "")
@@ -65,7 +65,7 @@ fi
 
 # ── Detect active submodules ──────────────────────────────────────────
 ACTIVE=()
-for d in gsd-advisor gsd-explicit-reactive gsd-guardian gsd-system-prompt gsd-magic-todo gsd-agent-loop; do
+for d in gsd-advisor gsd-explicit-reactive gsd-guardian gsd-fff gsd-system-prompt gsd-magic-todo gsd-agent-loop; do
   if [[ -d "$d/.git" || -f "$d/.git" ]]; then
     # Check for uncommitted changes before checkout
     if ! git -C "$d" diff --quiet 2>/dev/null; then

@@ -7,6 +7,7 @@ const PLUGIN_SUBMODULES = [
   'gsd-advisor',
   'gsd-agent-loop',
   'gsd-explicit-reactive',
+  'gsd-fff',
   'gsd-guardian',
   'gsd-magic-todo',
   'gsd-system-prompt',
