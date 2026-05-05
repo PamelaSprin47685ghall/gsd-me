@@ -5,11 +5,11 @@ import { dirname, join } from 'node:path'
 
 const PLUGIN_SUBMODULES = [
   'gsd-advisor',
-  'gsd-agent-loop',
-  'gsd-explicit-reactive',
+  // 'gsd-agent-loop',
+  // 'gsd-explicit-reactive',
+  // 'gsd-magic-todo',
   'gsd-fff',
   'gsd-guardian',
-  'gsd-magic-todo',
   'gsd-plan-and-execute',
   'gsd-syntax',
   'gsd-system-prompt',
