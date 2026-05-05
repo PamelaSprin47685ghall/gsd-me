@@ -10,6 +10,7 @@ const PLUGIN_SUBMODULES = [
   'gsd-fff',
   'gsd-guardian',
   'gsd-magic-todo',
+  'gsd-plan-and-execute',
   'gsd-syntax',
   'gsd-system-prompt',
   'gsd-web-search',
