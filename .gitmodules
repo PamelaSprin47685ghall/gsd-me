@@ -47,8 +47,8 @@
 [submodule "gsd-syntax"]
 	path = gsd-syntax
 	url = https://github.com/PamelaSprin47685ghall/gsd-syntax.git
-[submodule "gsd-plan-and-execute"]
-	path = gsd-plan-and-execute
+[submodule "gsd-plan-exec"]
+	path = gsd-plan-exec
 	url = https://github.com/PamelaSprin47685ghall/gsd-plan-and-execute.git
 	branch = main
 	update = merge
